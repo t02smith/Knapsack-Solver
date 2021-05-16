@@ -1,8 +1,9 @@
-package Genetic.Crossover;
+package KnapsackSolver.Genetic.Crossover;
 
 import java.util.Random;
 
-import Genetic.Chromosome;
+import KnapsackSolver.Genetic.Chromosome;
+import KnapsackSolver.Genetic.Generation;
 
 /**
  * A single point crossover selects an index at random
@@ -20,6 +21,13 @@ public class SinglePoint implements Crossover {
             boolean temp = c1.getGene(point);
             c1.setGene(point, c2.getGene(point));
             c2.setGene(point, temp);
+        }
+    }
+
+    @Override
+    public void crossover(Generation g) {
+        for (int i = 0; i < g.getGenerationSize()-1; i++) {
+            this.crossover(g.getChromosome(i), g.getChromosome(i+1));
         }
     }
 }

@@ -1,59 +1,29 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+package KnapsackSolver;
 import java.util.ArrayList;
 import java.util.Random;
 
-import Genetic.Chromosome;
-import Genetic.Generation;
-import Genetic.Crossover.Crossover.Crossovers;
-import Genetic.Mutation.Mutation.Mutations;
+import KnapsackSolver.Genetic.Chromosome;
+import KnapsackSolver.Genetic.Generation;
+
 
 public class Solver {
-    //How many chromosomes are in each generation
-    private static final int CHROMOSOMES_PER_GENERATION = 5;
-
-    //The max number of generations possible
-    private static final int GENERATION_LIMIT = 100;
-
-    //Max capacity of the knapsack
-    private static final int CAPACITY = 150;
-
-    //The chosen type of mutation
-    private static final Mutations MUTATION = Mutations.RANDOM;
-
-    //The chosen type of crossover
-    private static final Crossovers CROSSOVER = Crossovers.SINGLE;
-
-    //MEMBER VARIABLES//
 
     //The current optimal chromosome
     private Chromosome optimal;
     private int optimalFound;
 
-    //Knapsack capacity
-    private final int capacity;
-
-    //The items to put in the knapsack
-    private final Item[] items;
 
     //List of generations
     private ArrayList<Generation> generations = new ArrayList<>();
 
     public static void main(String[] args) {
-        var items = readItemsFromFile("items.csv");
-
-        var solver = new Solver(CAPACITY, items);
+        var solver = new Solver();
 
         System.out.printf("%d: %d, %d\n", solver.getOptimalFound(), solver.getOptimal().getFitness(), solver.getOptimal().getWeight());
         System.out.println(solver.getOptimal());
     }
 
-    public Solver(int capacity, Item[] items) {
-        this.capacity = capacity;
-        this.items = items;
-
-
+    public Solver() {
         this.mainLoop();
     }
 
@@ -67,7 +37,7 @@ public class Solver {
         /*
          * Repeat for a given number of generations
          */
-        while (this.generations.size() <= GENERATION_LIMIT) {
+        while (this.generations.size() <= Config.GENERATION_LIMIT) {
             var generation = this.generations.get(this.generations.size()-1);
             Chromosome[] chromosomes = generation.getChromosomes();
 
@@ -79,7 +49,7 @@ public class Solver {
                 this.optimalFound = this.generations.size();
             }
 
-            if (this.generations.size() == GENERATION_LIMIT) break;
+            if (this.generations.size() == Config.GENERATION_LIMIT) break;
 
             //CREATE NEXT GENERATION            
 
@@ -88,24 +58,24 @@ public class Solver {
                 sum += c.getFitness();
             }
 
-            var nextGen = new Chromosome[CHROMOSOMES_PER_GENERATION];
+            //var nextGen = new Chromosome[CHROMOSOMES_PER_GENERATION];
+            var nextGen = new Generation(new Chromosome[Config.CHROMOSOMES_PER_GENERATION]);
 
             //MUTATION//
-            for (int i = 0; i < CHROMOSOMES_PER_GENERATION; i++) {
-                nextGen[i] = this.keepChromosome(chromosomes[i], sum) 
+            for (int i = 0; i < Config.CHROMOSOMES_PER_GENERATION; i++) {
+                nextGen.setChromosome(i, this.keepChromosome(chromosomes[i], sum) 
                     ? chromosomes[i] 
-                    : this.generateRandomChromosome();
+                    : this.generateRandomChromosome()
+                );
                 
                 //Each chromosome is mutated
-                MUTATION.mutate(nextGen[i]);
+                Config.MUTATION.mutate(nextGen.getChromosome(i));
             }
 
             //CROSSOVER//
-            for (int i = 0; i < CHROMOSOMES_PER_GENERATION-1; i++) {
-                CROSSOVER.crossover(nextGen[i], nextGen[i+1]);
-            }
+            Config.CROSSOVER.crossover(nextGen);
 
-            this.generations.add(new Generation(nextGen));
+            this.generations.add(nextGen);
 
         }
     }
@@ -153,12 +123,12 @@ public class Solver {
         int fitness = 0;
         int weight = 0;
 
-        for (int i = 0; i < this.items.length; i++) {
+        for (int i = 0; i < Config.ITEMS.length; i++) {
             if (genes[i]) {
-                fitness += this.items[i].getValue();
-                weight += this.items[i].getWeight();
+                fitness += Config.ITEMS[i].getValue();
+                weight += Config.ITEMS[i].getWeight();
 
-                if (weight > this.capacity) {
+                if (weight > Config.CAPACITY) {
                     return 0;
                 }
             }
@@ -172,9 +142,9 @@ public class Solver {
      * Creates an initial random generation
      */
     private void createRandomGeneration() {
-        Chromosome[] chromosomes = new Chromosome[CHROMOSOMES_PER_GENERATION];
+        Chromosome[] chromosomes = new Chromosome[Config.CHROMOSOMES_PER_GENERATION];
 
-        for (int i = 0; i < CHROMOSOMES_PER_GENERATION; i++) {
+        for (int i = 0; i < Config.CHROMOSOMES_PER_GENERATION; i++) {
             chromosomes[i] = this.generateRandomChromosome();
         }
 
@@ -188,42 +158,15 @@ public class Solver {
     private Chromosome generateRandomChromosome() {
         var random = new Random();
 
-        var genes = new boolean[this.items.length];
-        for (int i = 0; i < this.items.length; i++) {
+        var genes = new boolean[Config.ITEMS.length];
+        for (int i = 0; i < Config.ITEMS.length; i++) {
             genes[i] = random.nextInt(100) < 50;
         }
 
         return new Chromosome(genes);
     }
 
-    public static Item[] readItemsFromFile(String filepath) {
-        var items = new ArrayList<Item>();
 
-        try {
-            var br = new BufferedReader(new FileReader(filepath));
-
-            String line;
-            while ((line = br.readLine()) != null) {
-                var values = line.split(",");
-
-                items.add(
-                    new Item(
-                        Integer.parseInt(values[1]),
-                        Integer.parseInt(values[0])
-                    )
-                );
-            }
-
-            br.close();
-
-            return items.toArray(new Item[items.size()]);
-
-        } catch (IOException e) {
-            System.out.printf("Error reading '%s'\n", filepath);
-        }
-
-        return null;
-    }
 
     public Chromosome getOptimal() {
         return this.optimal;

@@ -1,4 +1,4 @@
-package Genetic;
+package KnapsackSolver.Genetic;
 
 public class Chromosome {
     //How good of a solution this chromosome represents

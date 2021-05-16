@@ -1,6 +1,6 @@
-package Genetic.Mutation;
+package KnapsackSolver.Genetic.Mutation;
 
-import Genetic.Chromosome;
+import KnapsackSolver.Genetic.Chromosome;
 
 public interface Mutation {
     public void mutate(Chromosome c);
@@ -9,7 +9,8 @@ public interface Mutation {
      * Instances of any mutations
      */
     public enum Mutations {
-        RANDOM (new RandomMutation());
+        RANDOM (new RandomMutation()),
+        FILL_CAPACITY (new FillCapacity());
     
         private Mutation mutation;
     

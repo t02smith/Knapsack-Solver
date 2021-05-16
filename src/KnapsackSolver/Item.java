@@ -1,3 +1,5 @@
+package KnapsackSolver;
+
 public class Item {
     //The item's value
     private final int value;

@@ -1,8 +1,9 @@
-package Genetic.Mutation;
+package KnapsackSolver.Genetic.Mutation;
 
 import java.util.Random;
 
-import Genetic.Chromosome;
+import KnapsackSolver.Genetic.Chromosome;
+
 
 /**
  * This mutation will randomly flip bits in a chromosome

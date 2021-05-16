@@ -1,4 +1,4 @@
-package Genetic;
+package KnapsackSolver.Genetic;
 
 public class Generation {
     //Chromosomes in the generation
@@ -30,5 +30,17 @@ public class Generation {
 
     public Chromosome[] getChromosomes() {
         return this.chromosomes;
+    }
+
+    public Chromosome getChromosome(int index) {
+        return this.chromosomes[index];
+    }
+
+    public int getGenerationSize() {
+        return this.chromosomes.length;
+    }
+
+    public void setChromosome(int index, Chromosome c) {
+        this.chromosomes[index] = c;
     }
 }
