@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import KnapsackSolver.Genetic.Crossover.Crossover.Crossovers;
+import KnapsackSolver.Genetic.Fitness.FitnessAlg.Fitness;
 import KnapsackSolver.Genetic.Mutation.Mutation.Mutations;
 
 public abstract class Config {
@@ -20,11 +21,16 @@ public abstract class Config {
     //The items being put in the knapsack
     public static final Item[] ITEMS = readItemsFromFile("items.csv");
 
+    //The chosen fitness algorithm
+    public static final Fitness FITNESS = Fitness.VALUE;
+
     //The chosen type of mutation
     public static final Mutations MUTATION = Mutations.FILL_CAPACITY;
 
     //The chosen type of crossover
     public static final Crossovers CROSSOVER = Crossovers.SINGLE;
+
+
 
     /**
      * Reads a list of items from a file

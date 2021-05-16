@@ -1,11 +1,20 @@
 package KnapsackSolver.Genetic;
 
+import KnapsackSolver.Config;
+
+/**
+ * A chromsome that stores what items are included
+ * TODO more efficient setter
+ */
 public class Chromosome {
     //How good of a solution this chromosome represents
     private int fitness;
 
     //Weight of the chromosome -> -1 if invalid
-    private int weight = -1;
+    private int weight;
+
+    //The value of the items in the chromosome
+    private int value;
 
     //Which items this chromosome uses
     private boolean[] genes;
@@ -16,6 +25,28 @@ public class Chromosome {
      */
     public Chromosome(boolean[] genes) {
         this.genes = genes;
+        this.updateValues();
+    }
+
+    private void updateValues() {
+        this.calculateValue();
+        this.calculateWeight();
+    }
+
+    private void calculateWeight() {
+        this.weight = 0;
+
+        for (int i = 0; i < this.genes.length; i++) {
+            if (this.genes[i]) this.weight += Config.ITEMS[i].getWeight();
+        }
+    }
+
+    private void calculateValue() {
+        this.value = 0;
+
+        for (int i = 0; i < this.genes.length; i++) {
+            if (this.genes[i]) this.value += Config.ITEMS[i].getValue();
+        }
     }
 
     /**
@@ -26,10 +57,6 @@ public class Chromosome {
         this.fitness = fitness;
     }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
     /**
      * Flips a given gene
      * Makes the fitness outdated
@@ -37,6 +64,7 @@ public class Chromosome {
      */
     public void flipGene(int index) {
         this.genes[index] = !this.genes[index];
+        this.updateValues();
     }
 
     /**
@@ -46,6 +74,7 @@ public class Chromosome {
      */
     public void setGene(int index, boolean gene) {
         this.genes[index] = gene;
+        this.updateValues();
     }
 
     //GETTERS//
@@ -64,6 +93,10 @@ public class Chromosome {
 
     public int getWeight() {
         return this.weight;
+    }
+
+    public int getValue() {
+        return this.value;
     }
 
     public int getNumOfGenes() {

@@ -13,11 +13,6 @@ public class RandomMutation implements Mutation {
 
     @Override
     public void mutate(Chromosome c) {
-        if (c == null) {
-            System.out.println("it worked");
-            return;
-        }
-
         var random = new Random();
 
         for (int i = 0; i < c.getNumOfGenes(); i++) {

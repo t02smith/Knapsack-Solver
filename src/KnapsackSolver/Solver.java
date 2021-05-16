@@ -5,7 +5,9 @@ import java.util.Random;
 import KnapsackSolver.Genetic.Chromosome;
 import KnapsackSolver.Genetic.Generation;
 
-
+/**
+ * TODO better handling of a chromosomes fitness
+ */
 public class Solver {
 
     //The current optimal chromosome
@@ -19,7 +21,7 @@ public class Solver {
     public static void main(String[] args) {
         var solver = new Solver();
 
-        System.out.printf("%d: %d, %d\n", solver.getOptimalFound(), solver.getOptimal().getFitness(), solver.getOptimal().getWeight());
+        System.out.printf("%d: %d, %d\n", solver.getOptimalFound(), solver.getOptimal().getValue(), solver.getOptimal().getWeight());
         System.out.println(solver.getOptimal());
     }
 
@@ -106,36 +108,8 @@ public class Solver {
         var chromosomes = g.getChromosomes();
 
         for (Chromosome c: chromosomes) {
-            c.setFitness(this.fitness(c));
+            c.setFitness(Config.FITNESS.fitness(c));
         }
-    }
-
-    /**
-     * Gets the fitness of a given chromosome
-     * The fitness is the sum of the values
-     * if the weight is too large then the fitness is 0
-     * @param c a chromosome
-     * @return the fitness of the chromosome
-     */
-    public int fitness(Chromosome c) {
-        var genes = c.getGenes();
-
-        int fitness = 0;
-        int weight = 0;
-
-        for (int i = 0; i < Config.ITEMS.length; i++) {
-            if (genes[i]) {
-                fitness += Config.ITEMS[i].getValue();
-                weight += Config.ITEMS[i].getWeight();
-
-                if (weight > Config.CAPACITY) {
-                    return 0;
-                }
-            }
-        }
-
-        c.setWeight(weight);
-        return fitness;
     }
 
     /**
@@ -165,8 +139,6 @@ public class Solver {
 
         return new Chromosome(genes);
     }
-
-
 
     public Chromosome getOptimal() {
         return this.optimal;
