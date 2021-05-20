@@ -10,7 +10,8 @@ public interface Mutation {
      */
     public enum Mutations {
         RANDOM (new RandomMutation()),
-        FILL_CAPACITY (new FillCapacity());
+        FILL_CAPACITY (new FillCapacity()),
+        REMOVE_LEAST_VALUABLE(new RemoveLeastValue());
     
         private Mutation mutation;
     

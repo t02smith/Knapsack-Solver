@@ -10,6 +10,8 @@ import KnapsackSolver.Genetic.Chromosome;
  * 
  * If the weight is over the capacity then
  * its fitness is 0
+ * 
+ * Basically useless
  */
 public class Weight implements FitnessAlg {
     @Override

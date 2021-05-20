@@ -1,6 +1,6 @@
 package KnapsackSolver;
 
-public class Item {
+public final class Item {
     //The item's value
     private final int value;
 
@@ -16,6 +16,8 @@ public class Item {
         this.value = value;
         this.weight = weight;
     }
+
+    //GETTERS//
 
     public int getValue() {
         return this.value;

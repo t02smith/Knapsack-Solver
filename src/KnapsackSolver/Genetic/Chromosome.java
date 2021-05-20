@@ -28,11 +28,22 @@ public class Chromosome {
         this.updateValues();
     }
 
+    public Chromosome(String genes) {
+        this.genes = this.stringToBool(genes);
+        this.updateValues();
+    }
+
+    /**
+     * Check for updates to the value and weight attributes
+     */
     private void updateValues() {
         this.calculateValue();
         this.calculateWeight();
     }
 
+    /**
+     * Calculate the weight of the items
+     */
     private void calculateWeight() {
         this.weight = 0;
 
@@ -41,6 +52,9 @@ public class Chromosome {
         }
     }
 
+    /**
+     * Calculate the total value of the items
+     */
     private void calculateValue() {
         this.value = 0;
 
@@ -104,6 +118,19 @@ public class Chromosome {
     }
 
     //
+
+    private boolean[] stringToBool(String c) {
+        if (c.length() != Config.ITEMS.length) throw new IllegalArgumentException("Incorrect number of items.");
+
+        boolean[] chrom = new boolean[Config.ITEMS.length];
+        for (int i = 0; i < chrom.length; i++) {
+            if (c.charAt(i) == '1') chrom[i] = true;
+            else if (c.charAt(i) == '0') chrom[i] = false;
+            else throw new IllegalArgumentException("Incorrect chromosome given - expected 1/0 not '" + c.charAt(i) + "'");
+        }
+
+        return chrom;
+    }
 
     @Override
     public String toString() {

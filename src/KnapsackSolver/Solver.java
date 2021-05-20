@@ -14,16 +14,8 @@ public class Solver {
     private Chromosome optimal;
     private int optimalFound;
 
-
     //List of generations
     private ArrayList<Generation> generations = new ArrayList<>();
-
-    public static void main(String[] args) {
-        var solver = new Solver();
-
-        System.out.printf("%d: %d, %d\n", solver.getOptimalFound(), solver.getOptimal().getValue(), solver.getOptimal().getWeight());
-        System.out.println(solver.getOptimal());
-    }
 
     public Solver() {
         this.mainLoop();
@@ -36,25 +28,12 @@ public class Solver {
         //Creates an initial random first generation
         this.createRandomGeneration();
 
-        /*
-         * Repeat for a given number of generations
-         */
+        //Repeat for a given number of generations
         while (this.generations.size() <= Config.GENERATION_LIMIT) {
-            var generation = this.generations.get(this.generations.size()-1);
-            Chromosome[] chromosomes = generation.getChromosomes();
-
-            this.setFitnesses(generation);
-
-            //If a new optimal if found
-            if (this.optimal == null || generation.getOptimal().getFitness() > this.optimal.getFitness()) {
-                this.optimal = generation.getOptimal();
-                this.optimalFound = this.generations.size();
-            }
-
-            if (this.generations.size() == Config.GENERATION_LIMIT) break;
+            var oldGen = this.generations.get(this.generations.size()-1);
+            Chromosome[] chromosomes = oldGen.getChromosomes();
 
             //CREATE NEXT GENERATION            
-
             int sum = 0;
             for (Chromosome c: chromosomes) {
                 sum += c.getFitness();
@@ -78,7 +57,13 @@ public class Solver {
             Config.CROSSOVER.crossover(nextGen);
 
             this.generations.add(nextGen);
+            this.setFitnesses(nextGen);
 
+            //If a new optimal if found
+            if (this.optimal == null || nextGen.getOptimal().getFitness() > this.optimal.getFitness()) {
+                this.optimal = nextGen.getOptimal();
+                this.optimalFound = this.generations.size();
+            }
         }
     }
 
@@ -139,6 +124,8 @@ public class Solver {
 
         return new Chromosome(genes);
     }
+
+    //GETTERS//
 
     public Chromosome getOptimal() {
         return this.optimal;
