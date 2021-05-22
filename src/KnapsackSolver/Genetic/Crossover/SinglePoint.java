@@ -1,11 +1,8 @@
 package KnapsackSolver.Genetic.Crossover;
 
-import java.util.Arrays;
 import java.util.Random;
 
 import KnapsackSolver.Genetic.Chromosome;
-import KnapsackSolver.Genetic.Generation;
-import KnapsackSolver.Genetic.SortChromosomeBy;
 
 /**
  * A single point crossover selects an index at random
@@ -26,12 +23,5 @@ public class SinglePoint implements Crossover {
         }
     }
 
-    @Override
-    public void crossover(Generation g) {
-        Arrays.sort(g.getChromosomes(), SortChromosomeBy.VALUE);
 
-        for (int i = 0; i < g.getGenerationSize()-1; i++) {
-            this.crossover(g.getChromosome(i), g.getChromosome(i+1));
-        }
-    }
 }

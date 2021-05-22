@@ -3,8 +3,6 @@ package KnapsackSolver.Genetic.Crossover;
 import java.util.Random;
 
 import KnapsackSolver.Genetic.Chromosome;
-import KnapsackSolver.Genetic.Generation;
-
 
 public class DoublePoint implements Crossover {
     @Override
@@ -21,10 +19,4 @@ public class DoublePoint implements Crossover {
         }
     }
 
-    @Override
-    public void crossover(Generation g) {
-        for (int i = 0; i < g.getGenerationSize()-1; i++) {
-            this.crossover(g.getChromosome(i), g.getChromosome(i+1));
-        }
-    }
 }

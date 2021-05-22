@@ -4,6 +4,7 @@ import java.util.Random;
 
 import KnapsackSolver.Genetic.Chromosome;
 import KnapsackSolver.Genetic.Generation;
+import KnapsackSolver.Genetic.OptimalChromosome;
 
 /**
  * TODO better handling of a chromosomes fitness
@@ -11,8 +12,7 @@ import KnapsackSolver.Genetic.Generation;
 public class Solver {
 
     //The current optimal chromosome
-    private Chromosome optimal;
-    private int optimalFound;
+    private OptimalChromosome optimal;
 
     //List of generations
     private ArrayList<Generation> generations = new ArrayList<>();
@@ -29,7 +29,7 @@ public class Solver {
         this.createRandomGeneration();
 
         //Repeat for a given number of generations
-        while (this.generations.size() <= Config.GENERATION_LIMIT) {
+        while (this.generations.size() < Config.GENERATION_LIMIT) {
             var oldGen = this.generations.get(this.generations.size()-1);
             Chromosome[] chromosomes = oldGen.getChromosomes();
 
@@ -61,8 +61,10 @@ public class Solver {
 
             //If a new optimal if found
             if (this.optimal == null || nextGen.getOptimal().getFitness() > this.optimal.getFitness()) {
-                this.optimal = nextGen.getOptimal();
-                this.optimalFound = this.generations.size();
+                this.optimal = new OptimalChromosome(nextGen.getOptimal(), this.generations.size());
+
+                //Stop if the target is reached
+                if (this.optimal.getValue() >= Config.TARGET) return;
             }
         }
     }
@@ -127,11 +129,8 @@ public class Solver {
 
     //GETTERS//
 
-    public Chromosome getOptimal() {
+    public OptimalChromosome getOptimal() {
         return this.optimal;
     }
 
-    public int getOptimalFound() {
-        return this.optimalFound;
-    }
 }

@@ -8,16 +8,16 @@ import KnapsackSolver.Config;
  */
 public class Chromosome {
     //How good of a solution this chromosome represents
-    private int fitness;
+    protected int fitness;
 
     //Weight of the chromosome -> -1 if invalid
-    private int weight;
+    protected int weight;
 
     //The value of the items in the chromosome
-    private int value;
+    protected int value;
 
     //Which items this chromosome uses
-    private boolean[] genes;
+    protected boolean[] genes;
 
     /**
      * Creates a new chromosome
@@ -119,7 +119,7 @@ public class Chromosome {
 
     //
 
-    private boolean[] stringToBool(String c) {
+    protected boolean[] stringToBool(String c) {
         if (c.length() != Config.ITEMS.length) throw new IllegalArgumentException("Incorrect number of items.");
 
         boolean[] chrom = new boolean[Config.ITEMS.length];

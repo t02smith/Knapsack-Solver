@@ -18,6 +18,9 @@ public abstract class Config {
     //Max capacity of the knapsack
     public static final int CAPACITY = 150;
 
+    //A target value to quit if reached/exceeded
+    public static final int TARGET = 1000;
+
     //The items being put in the knapsack
     public static final Item[] ITEMS = readItemsFromFile("items.csv");
 
@@ -25,7 +28,7 @@ public abstract class Config {
     public static final Fitness FITNESS = Fitness.VALUE;
 
     //The chosen type of mutation
-    public static final Mutations MUTATION = Mutations.REMOVE_LEAST_VALUABLE;
+    public static final Mutations MUTATION = Mutations.DOUBLE_MUTATION;
 
     //The chosen type of crossover
     public static final Crossovers CROSSOVER = Crossovers.SINGLE;
@@ -45,6 +48,7 @@ public abstract class Config {
             while ((line = br.readLine()) != null) {
                 var values = line.split(",");
 
+                //Item (value, weight)
                 items.add(
                     new Item(
                         Integer.parseInt(values[1]),

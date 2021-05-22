@@ -28,6 +28,12 @@ public class Generation {
         return optimal;
     }
 
+    public void setChromosome(int index, Chromosome c) {
+        this.chromosomes[index] = c;
+    }
+
+    //GETTERS//
+
     public Chromosome[] getChromosomes() {
         return this.chromosomes;
     }
@@ -40,7 +46,5 @@ public class Generation {
         return this.chromosomes.length;
     }
 
-    public void setChromosome(int index, Chromosome c) {
-        this.chromosomes[index] = c;
-    }
+
 }
