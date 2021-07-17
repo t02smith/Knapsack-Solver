@@ -6,9 +6,7 @@ import KnapsackSolver.Genetic.Chromosome;
 import KnapsackSolver.Genetic.Generation;
 import KnapsackSolver.Genetic.OptimalChromosome;
 
-/**
- * TODO better handling of a chromosomes fitness
- */
+
 public class Solver {
 
     //The current optimal chromosome
@@ -64,7 +62,7 @@ public class Solver {
                 this.optimal = new OptimalChromosome(nextGen.getOptimal(), this.generations.size());
 
                 //Stop if the target is reached
-                if (this.optimal.getValue() >= Config.TARGET) return;
+                if (this.optimal.getFitness() >= Config.TARGET) return;
             }
         }
     }
@@ -130,6 +128,7 @@ public class Solver {
     //GETTERS//
 
     public OptimalChromosome getOptimal() {
+        System.out.printf("%s: %d\n", this.optimal, this.optimal.getFitness());
         return this.optimal;
     }
 

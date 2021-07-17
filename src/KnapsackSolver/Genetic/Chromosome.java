@@ -4,7 +4,6 @@ import KnapsackSolver.Config;
 
 /**
  * A chromsome that stores what items are included
- * TODO more efficient setter
  */
 public class Chromosome {
     //How good of a solution this chromosome represents

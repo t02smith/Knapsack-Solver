@@ -12,6 +12,7 @@ public class OptimalChromosome extends Chromosome {
         super(c.getGenes());
         this.fitness = c.getFitness();
         this.generationFound = generationFound;
+
     }
 
     public int getGenerationFound() {

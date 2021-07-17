@@ -7,7 +7,8 @@ public interface FitnessAlg {
 
     public enum Fitness {
         VALUE (new Value()),
-        WEIGHT (new Weight());
+        WEIGHT (new Weight()),
+        PRIORITY (new Priority());
 
         private FitnessAlg fitness;
 

@@ -25,7 +25,7 @@ public abstract class Config {
     public static final Item[] ITEMS = readItemsFromFile("items.csv");
 
     //The chosen fitness algorithm
-    public static final Fitness FITNESS = Fitness.VALUE;
+    public static final Fitness FITNESS = Fitness.PRIORITY;
 
     //The chosen type of mutation
     public static final Mutations MUTATION = Mutations.DOUBLE_MUTATION;

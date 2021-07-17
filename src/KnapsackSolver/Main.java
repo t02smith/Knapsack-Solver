@@ -4,8 +4,8 @@ import KnapsackSolver.Genetic.OptimalChromosome;
 
 public abstract class Main {
 
-    private static final int ITERATIONS = 1000;
-
+    //How many times to run the algorithm
+    private static final int ITERATIONS = 5;
     
     public static void main(String[] args) {
         int generationSum = 0;
@@ -34,37 +34,6 @@ public abstract class Main {
         System.out.printf("Average time taken %.2f ms\n", (double)totalTime/ITERATIONS);
         System.out.printf("Total time taken %.2f ms\n", allIterationsTime);
     }
-
-    /*
-    public static void main(String[] args) {
-        int successes = 0;
-        
-        int generationSum = 0;
-        int targetHit = 0;
-
-        double totalTime = 0;
-        double startTime;
-        
-        for (int attempts = 1; attempts <= ITERATIONS; attempts++) {
-            startTime = System.currentTimeMillis();
-            var attempt = runSolver();
-            totalTime += (System.currentTimeMillis()-startTime);
-
-            if (attempt.getValue() >= Config.TARGET) {
-                successes++;
-                generationSum += attempt.getGenerationFound();
-                targetHit++;
-            }
-        }
-
-        double successRate = 100*successes/ITERATIONS;
-        System.out.printf("Target Value Hit: %.2f%%\n", successRate);
-        
-        double avgTime = totalTime/ITERATIONS;
-        int avgGen = generationSum/targetHit;
-        System.out.printf("Average Generation for Maximum: %d\n", avgGen);
-        System.out.printf("Average Time Taken: %.2fms\n", avgTime);
-    }*/
 
     /**
      * Runs a solver
